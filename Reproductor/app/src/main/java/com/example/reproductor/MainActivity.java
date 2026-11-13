@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     public TextView tiempoTotal;
     private boolean arrastrando;
     private SoundPool soundPool;
+    public ImageButton esqueleto;
+    public ImageButton tanque;
+    public ImageButton barra;
+    public ImageButton zombie;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable updateProgressTask = new Runnable() {
@@ -139,6 +144,32 @@ public class MainActivity extends AppCompatActivity {
                 .setMaxStreams(4)
                 .setAudioAttributes(atributos)
                 .build();
+
+        zombie=findViewById(R.id.btnZombie);
+        int soundId = soundPool.load(this, R.raw.zombie, 1);
+        zombie.setOnClickListener(v -> {
+            soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
+        });
+
+        esqueleto=findViewById(R.id.btnEsqueleto);
+        int soundId2 = soundPool.load(this, R.raw.esqueleto, 1);
+        esqueleto.setOnClickListener(v -> {
+            soundPool.play(soundId2, 1.0f, 1.0f, 0, 0, 1.0f);
+        });
+
+        tanque=findViewById(R.id.btnTanque);
+        int soundId3 = soundPool.load(this, R.raw.heartsteel, 1);
+        tanque.setOnClickListener(v -> {
+            soundPool.play(soundId3, 1.0f, 1.0f, 0, 0, 1.0f);
+        });
+
+        barra=findViewById(R.id.btnBarra);
+        int soundId4 = soundPool.load(this, R.raw.metal, 1);
+        barra.setOnClickListener(v -> {
+            soundPool.play(soundId4, 1.0f, 1.0f, 0, 0, 1.0f);
+        });
+
+
 
     }
 
