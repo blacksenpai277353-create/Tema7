@@ -4,9 +4,8 @@ plugins {
 
 android {
     namespace = "com.example.reproductor"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = 37
+
 
     defaultConfig {
         applicationId = "com.example.reproductor"
@@ -21,7 +20,8 @@ android {
     buildTypes {
         release {
             optimization {
-                enable = false
+                enable = true
+                packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
             }
         }
     }
@@ -39,4 +39,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
+    implementation(libs.media3.exoplayer)
 }
