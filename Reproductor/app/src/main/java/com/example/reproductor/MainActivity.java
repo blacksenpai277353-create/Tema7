@@ -1,5 +1,7 @@
 package com.example.reproductor;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView tiempoActual;
     public TextView tiempoTotal;
     private boolean arrastrando;
+    private SoundPool soundPool;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable updateProgressTask = new Runnable() {
@@ -127,16 +130,35 @@ public class MainActivity extends AppCompatActivity {
                 arrastrando = false;
             }
         });
+        AudioAttributes atributos = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(4)
+                .setAudioAttributes(atributos)
+                .build();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        handler.post(actualizar);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        handler.removeCallbacks(actualizar);
+        player.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(updateProgressTask);
-        if (player != null) {
-            player.release();
-            player = null;
-        }
+        player.release();
+        soundPool.release();
     }
 
     private String formatear(long ms) {
@@ -144,4 +166,17 @@ public class MainActivity extends AppCompatActivity {
         long segundos = safeMs / 1000;
         return String.format(Locale.getDefault(), "%02d:%02d", segundos / 60, segundos % 60);
     }
+
+    final Runnable actualizar = new Runnable() {
+        @Override
+        public void run() {
+            if (!arrastrando) {
+                long posicion = player.getCurrentPosition();
+                progreso.setProgress((int) posicion);
+                tiempoActual.setText(formatear(posicion));
+            }
+            handler.postDelayed(this, 500);
+        }
+    };
+
 }
