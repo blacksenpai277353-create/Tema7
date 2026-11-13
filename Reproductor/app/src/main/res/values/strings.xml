@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Reproductor</string>
+    <string name="reproductor">Reproductor de Marcelo</string>
+    <string name="nombre">Ma nigga - El Alfa</string>
+    <string name="play">Play</string>
+    <string name="pausa">Pausa</string>
+    <string name="efectos">Efectos de sonido</string>
+    <string name="esqueleto">Esqueleto</string>
+    <string name="barra">Barra</string>
+    <string name="zombie">Cod</string>
+    <string name="tanque">Tanque</string>
+    <string name="tiempo_cero">00:00</string>
+</resources>
